@@ -1,0 +1,4 @@
+SOV_PhoKhunRam by uvSOV (Worawut Thanawatanawanich)
+Source: https://www.f0nt.com/release/sov-phokhunram/
+License: https://www.f0nt.com/about/license/
+Original unmodified PhoKhunRam.ttf, included for rendering the Thai heading.

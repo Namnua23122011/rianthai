@@ -1,0 +1,19 @@
+// Add your topic questions here. answer is the zero-based correct option index.
+// Keep three questions in each level. Topic display names can be edited in the dashboard.
+export const levels = [
+  { id: 'discover', title: 'Discover the basics', difficulty: 'Beginner', color: 'purple', icon: 'leaf', xp: 100, badge: 'Curious Explorer', questions: [
+    { prompt: 'gay', options: ['gay', 'gay1', 'gay2'], answer: 1, explanation: 'A strong foundation helps new ideas make sense.' },
+    { prompt: 'What can help you remember a new idea?', options: ['Explain it in your own words', 'Never think about it again', 'Read without paying attention'], answer: 0, explanation: 'Putting ideas into your own words builds understanding.' },
+    { prompt: 'What should you do when you make a mistake?', options: ['Stop learning', 'Hide the mistake', 'Learn from it and try again'], answer: 2, explanation: 'Mistakes help you discover what to practice next.' },
+  ] },
+  { id: 'practice', title: 'Put it into practice', difficulty: 'Intermediate', color: 'orange', icon: 'mountain', xp: 200, badge: 'Practice Pioneer', questions: [
+    { prompt: 'Which approach helps you check your understanding?', options: ['Copy the answer', 'Try a problem on your own', 'Only read the heading'], answer: 1, explanation: 'Trying independently shows you what you understand.' },
+    { prompt: 'You are stuck on a problem. What could help?', options: ['Break it into smaller steps', 'Ignore all the instructions', 'Guess without thinking'], answer: 0, explanation: 'Smaller steps make a difficult task more manageable.' },
+    { prompt: 'Which is a useful way to review?', options: ['Avoid difficult questions', 'Only review once a year', 'Return to ideas over time'], answer: 2, explanation: 'Reviewing over time helps strengthen your memory.' },
+  ] },
+  { id: 'master', title: 'Master the challenge', difficulty: 'Advanced', color: 'green', icon: 'trophy', xp: 300, badge: 'Quest Champion', questions: [
+    { prompt: 'How can you put knowledge to a deeper test?', options: ['Apply it in a new situation', 'Repeat a title aloud', 'Skip the explanation'], answer: 0, explanation: 'Applying an idea in a new context tests your understanding.' },
+    { prompt: 'What should a clear explanation include?', options: ['Only the final answer', 'The reasoning behind the answer', 'As many long words as possible'], answer: 1, explanation: 'Reasoning shows how you reached your conclusion.' },
+    { prompt: 'What is a useful next step after finishing a challenge?', options: ['Forget the experience', 'Never practice again', 'Reflect on what you learned'], answer: 2, explanation: 'Reflection helps you recognize progress and plan your next goal.' },
+  ] },
+]
