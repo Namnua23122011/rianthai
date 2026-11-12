@@ -1,5 +1,5 @@
 // Add your topic questions here. answer is the zero-based correct option index.
-// Keep three questions in each level. Topic display names can be edited in the dashboard.
+// Add questions to each level as needed. Topic display names can be edited in the dashboard.
 export const levels = [
   { id: 'discover', title: 'Discover the basics', difficulty: 'Beginner', color: 'purple', icon: 'leaf', xp: 100, badge: 'Curious Explorer', questions: [
     { prompt: 'ในอดีตคนไทยมีวิธีอนุรักษ์ภาษาไทยอย่างไร?', options: ['ใช้ภาษาอังกฤษในการสื่อสาร', ' จารึกข้อความลงบนศิลาจารึก', ' ใช้สื่อสังคมออนไลน์'], answer: 1, explanation: 'A strong foundation helps new ideas make sense.' },
