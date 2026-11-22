@@ -1,24 +1,24 @@
 // Add your topic questions here. answer is the zero-based correct option index.
 // Add questions to each level as needed. Topic display names can be edited in the dashboard.
 export const levels = [
-  { id: 'discover', title: 'Discover the basics', difficulty: 'Beginner', color: 'purple', icon: 'leaf', xp: 100, badge: 'Curious Explorer', questions: [
-    { prompt: 'ในอดีตคนไทยมีวิธีอนุรักษ์ภาษาไทยอย่างไร?', options: ['ใช้ภาษาอังกฤษในการสื่อสาร', ' จารึกข้อความลงบนศิลาจารึก', ' ใช้สื่อสังคมออนไลน์'], answer: 1, explanation: 'A strong foundation helps new ideas make sense.' },
-    { prompt: 'วรรณคดีไทยมีบทบาทสำคัญอย่างไรในการอนุรักษ์ภาษาไทย?', options: ['ช่วยเผยแพร่วัฒนธรรมต่างชาติ', 'ช่วยลดการใช้ภาษาไทย', 'ช่วยรักษาคำศัพท์และรูปแบบการใช้ภาษาไทย'], answer: 2, explanation: 'Putting ideas into your own words builds understanding.' },
-    { prompt: 'สถาบันใดมีบทบาทสำคัญในการส่งเสริมการใช้ภาษาไทยในอดีต?', options: ['วัด', 'ห้างสรรพสินค้า', 'บริษัทเอกชน'], answer: 0, explanation: 'Mistakes help you discover what to practice next.' },
+  { id: 'discover', title: 'รากเหง้าภาษาไทย', description: 'เรียนรู้คุณค่าและการอนุรักษ์ภาษาไทย', difficulty: 'ขั้นต้น', color: 'red', icon: 'leaf', xp: 100, badge: 'ผู้สืบสานภาษา', questions: [
+    { prompt: 'ในอดีตคนไทยมีวิธีอนุรักษ์ภาษาไทยอย่างไร?', options: ['ใช้ภาษาอังกฤษในการสื่อสาร', 'จารึกข้อความลงบนศิลาจารึก', 'ใช้สื่อสังคมออนไลน์'], answer: 1, explanation: 'การจารึกข้อความช่วยเก็บรักษาภาษาและเรื่องราวไว้ให้คนรุ่นหลังได้ศึกษา' },
+    { prompt: 'วรรณคดีไทยมีบทบาทสำคัญอย่างไรในการอนุรักษ์ภาษาไทย?', options: ['ช่วยเผยแพร่วัฒนธรรมต่างชาติ', 'ช่วยลดการใช้ภาษาไทย', 'ช่วยรักษาคำศัพท์และรูปแบบการใช้ภาษาไทย'], answer: 2, explanation: 'วรรณคดีเก็บรักษาคำศัพท์ สำนวน และรูปแบบการใช้ภาษาให้เราได้เรียนรู้' },
+    { prompt: 'สถาบันใดมีบทบาทสำคัญในการส่งเสริมการใช้ภาษาไทยในอดีต?', options: ['วัด', 'ห้างสรรพสินค้า', 'บริษัทเอกชน'], answer: 0, explanation: 'วัดเป็นแหล่งเรียนรู้และถ่ายทอดการอ่านเขียนให้แก่คนในชุมชน' },
     { prompt: 'ปัจจัยใดช่วยให้ภาษาไทยยังคงสืบทอดมาจนถึงปัจจุบัน?', options:['การลดการใช้ภาษาไทย','การรับวัฒนธรรมต่างชาติเพียงอย่างเดียว','การเรียนรู้และถ่ายทอดภาษาไทยจากรุ่นสู่รุ่น'],answer: 2, explanation:''},
     { prompt: 'สื่อสังคมออนไลน์สามารถช่วยอนุรักษ์ภาษาไทยได้อย่างไร?', options: ['เผยแพร่ความรู้เกี่ยวกับภาษาไทย', 'สนับสนุนให้เลิกใช้ภาษาไทย', 'ส่งเสริมการใช้คำผิด'], answer: 0, explanation: '' },
     { prompt: 'การใช้ภาษาวิบัติมากเกินไปอาจส่งผลอย่างไร?', options: ['ทำให้เข้าใจหลักภาษาไทยมากขึ้น', 'ทำให้เกิดความสับสนในการใช้ภาษาไทยที่ถูกต้อง', 'ทำให้ภาษาไทยมีหลักไวยากรณ์ชัดเจนขึ้น'], answer: 1, explanation: '' },
     { prompt: 'คนรุ่นใหม่ควรมีส่วนร่วมในการอนุรักษ์ภาษาไทยอย่างไร?', options: ['หลีกเลี่ยงการอ่านหนังสือภาษาไทย', 'ใช้ภาษาต่างประเทศแทนภาษาไทยทั้งหมด', 'ใช้ภาษาไทยให้ถูกต้องและเหมาะสมกับกาลเทศะ'], answer: 2, explanation: '' },
     { prompt: 'วิธีใดเหมาะสมที่สุดในการนำวิธีอนุรักษ์ภาษาไทยในอดีตมาประยุกต์ใช้ในปัจจุบัน?', options: ['เลิกใช้เทคโนโลยีทั้งหมด', 'ใช้เฉพาะภาษาไทยแบบโบราณ', 'นำเทคโนโลยีมาเผยแพร่หนังสือและความรู้ภาษาไทย'], answer: 2, explanation: '' },
   ] },
-  { id: 'practice', title: 'Put it into practice', difficulty: 'Intermediate', color: 'orange', icon: 'mountain', xp: 200, badge: 'Practice Pioneer', questions: [
-    { prompt: 'Which approach helps you check your understanding?', options: ['Copy the answer', 'Try a problem on your own', 'Only read the heading'], answer: 1, explanation: 'Trying independently shows you what you understand.' },
-    { prompt: 'You are stuck on a problem. What could help?', options: ['Break it into smaller steps', 'Ignore all the instructions', 'Guess without thinking'], answer: 0, explanation: 'Smaller steps make a difficult task more manageable.' },
-    { prompt: 'Which is a useful way to review?', options: ['Avoid difficult questions', 'Only review once a year', 'Return to ideas over time'], answer: 2, explanation: 'Reviewing over time helps strengthen your memory.' },
+  { id: 'practice', title: 'ฝึกคิด พินิจความ', description: 'ฝึกฝนและทบทวนให้เข้าใจยิ่งขึ้น', difficulty: 'ขั้นกลาง', color: 'gold', icon: 'mountain', xp: 200, badge: 'ผู้หมั่นฝึกฝน', questions: [
+    { prompt: 'วิธีใดช่วยตรวจสอบความเข้าใจของตนเอง?', options: ['คัดลอกคำตอบ', 'ลองแก้โจทย์ด้วยตนเอง', 'อ่านเฉพาะหัวข้อ'], answer: 1, explanation: 'การลองทำด้วยตนเองช่วยให้รู้ว่าเข้าใจส่วนใดแล้ว และส่วนใดยังต้องฝึกฝน' },
+    { prompt: 'เมื่อแก้โจทย์ไม่ได้ วิธีใดช่วยได้?', options: ['แบ่งโจทย์เป็นขั้นตอนย่อย ๆ', 'ไม่อ่านคำแนะนำทั้งหมด', 'เดาคำตอบโดยไม่คิด'], answer: 0, explanation: 'การแบ่งเป็นขั้นตอนย่อยช่วยให้ค่อย ๆ ทำความเข้าใจและแก้โจทย์ที่ยากได้' },
+    { prompt: 'วิธีใดช่วยให้การทบทวนเกิดประโยชน์?', options: ['หลีกเลี่ยงข้อที่ยาก', 'ทบทวนเพียงปีละครั้ง', 'กลับมาทบทวนเป็นระยะ'], answer: 2, explanation: 'การกลับมาทบทวนเป็นระยะช่วยเสริมความจำและความเข้าใจให้มั่นคง' },
   ] },
-  { id: 'master', title: 'Master the challenge', difficulty: 'Advanced', color: 'green', icon: 'trophy', xp: 300, badge: 'Quest Champion', questions: [
-    { prompt: 'How can you put knowledge to a deeper test?', options: ['Apply it in a new situation', 'Repeat a title aloud', 'Skip the explanation'], answer: 0, explanation: 'Applying an idea in a new context tests your understanding.' },
-    { prompt: 'What should a clear explanation include?', options: ['Only the final answer', 'The reasoning behind the answer', 'As many long words as possible'], answer: 1, explanation: 'Reasoning shows how you reached your conclusion.' },
-    { prompt: 'What is a useful next step after finishing a challenge?', options: ['Forget the experience', 'Never practice again', 'Reflect on what you learned'], answer: 2, explanation: 'Reflection helps you recognize progress and plan your next goal.' },
+  { id: 'master', title: 'ต่อยอดสู่ปัญญา', description: 'ประยุกต์ความรู้และสะท้อนสิ่งที่ได้เรียน', difficulty: 'ขั้นสูง', color: 'green', icon: 'trophy', xp: 300, badge: 'ผู้รอบรู้', questions: [
+    { prompt: 'จะทดสอบความเข้าใจอย่างลึกซึ้งได้อย่างไร?', options: ['นำความรู้ไปใช้ในสถานการณ์ใหม่', 'อ่านชื่อเรื่องซ้ำ ๆ', 'ข้ามคำอธิบาย'], answer: 0, explanation: 'การนำความรู้ไปใช้ในสถานการณ์ใหม่ช่วยทดสอบว่าเราเข้าใจและประยุกต์ใช้ได้จริง' },
+    { prompt: 'คำอธิบายที่ชัดเจนควรมีสิ่งใด?', options: ['เฉพาะคำตอบสุดท้าย', 'เหตุผลที่นำไปสู่คำตอบ', 'คำยาว ๆ ให้มากที่สุด'], answer: 1, explanation: 'การอธิบายเหตุผลทำให้ผู้อื่นเข้าใจว่าเราได้ข้อสรุปนั้นมาอย่างไร' },
+    { prompt: 'เมื่อทำบททดสอบเสร็จแล้ว ควรทำสิ่งใดต่อ?', options: ['ลืมประสบการณ์ที่ผ่านมา', 'ไม่ฝึกฝนอีกเลย', 'ทบทวนสิ่งที่ได้เรียนรู้'], answer: 2, explanation: 'การทบทวนสิ่งที่ได้เรียนรู้ช่วยให้เห็นพัฒนาการและวางเป้าหมายครั้งต่อไป' },
   ] },
 ]

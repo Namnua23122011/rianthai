@@ -41,7 +41,7 @@ export function gameReducer(state, action) {
   switch (action.type) {
     case 'reset': return action.round
     case 'start':
-      return state.status === 'ready' ? { ...state, status: 'playing', startedAt: action.now, message: 'เลือกการ์ด 2 ใบเพื่อจับคู่ตัวอักษร' } : state
+      return state.status === 'ready' ? { ...state, status: 'playing', startedAt: action.now, message: 'เลือกการ์ดสองใบเพื่อจับคู่ตัวอักษร' } : state
     case 'hide':
       return state.selected.length === 2 ? { ...state, selected: [], message: 'ลองอีกครั้ง ค่อย ๆ จำตำแหน่งของตัวอักษร' } : state
     case 'flip': {
