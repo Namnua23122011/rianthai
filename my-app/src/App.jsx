@@ -3,6 +3,8 @@ import { levels } from './learning'
 import MatchingGame from './MatchingGame'
 import { cardBack } from './matchingCards'
 import { thaiNumber } from './format'
+import SlideLesson from './SlideLesson'
+import { completionTarget, isValidProgress, migrateLegacyProgress, progressStorageKey, topicsStorageKey } from './learningProgress'
 
 const navigation = [
   { id: 'dashboard', label: 'หน้าหลัก', icon: 'home' },
@@ -38,14 +40,20 @@ function Lotus({ className = '' }) {
 }
 
 export default function App() {
-  const [progress, setProgress] = useState(() => saved('studyquest-progress', levels.map(() => 0), v => Array.isArray(v) && v.length === levels.length && v.every((n, i) => Number.isInteger(n) && n >= 0 && n <= levels[i].questions.length)))
-  const [topics, setTopics] = useState(() => saved('studyquest-topics', levels.map(() => ''), v => Array.isArray(v) && v.length === levels.length && v.every(s => typeof s === 'string')))
+  const [progress, setProgress] = useState(() => saved(progressStorageKey,
+    migrateLegacyProgress(saved('studyquest-progress', [], Array.isArray), levels),
+    value => isValidProgress(value, levels)))
+  const [topics, setTopics] = useState(() => {
+    const validTopics = value => Array.isArray(value) && value.length === levels.length && value.every(topic => typeof topic === 'string')
+    const legacyTopics = saved('studyquest-topics', levels.map(() => ''), validTopics)
+    return saved(topicsStorageKey, legacyTopics.map((topic, i) => i === 0 ? '' : topic), validTopics)
+  })
   const [tab, setTab] = useState('dashboard')
   const [game, setGame] = useState(null)
   const [editor, setEditor] = useState(false)
   const [notice, setNotice] = useState('')
   const dialog = useRef(null)
-  const isComplete = i => progress[i] === levels[i].questions.length
+  const isComplete = i => progress[i] === completionTarget(levels[i])
   const completed = progress.filter((_, i) => isComplete(i)).length
   const xp = progress.reduce((sum, _, i) => sum + (isComplete(i) ? levels[i].xp : 0), 0)
   const current = completed === levels.length ? levels.length - 1 : levels.findIndex((_, i) => !isComplete(i))
@@ -54,13 +62,13 @@ export default function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('studyquest-progress', JSON.stringify(progress))
-      localStorage.setItem('studyquest-topics', JSON.stringify(topics))
+      localStorage.setItem(progressStorageKey, JSON.stringify(progress))
+      localStorage.setItem(topicsStorageKey, JSON.stringify(topics))
     } catch { setNotice('ไม่สามารถบันทึกข้อมูลในเบราว์เซอร์ได้ การเปลี่ยนแปลงจะคงอยู่เฉพาะการใช้งานครั้งนี้') }
   }, [progress, topics])
   useEffect(() => { if (game || editor) dialog.current?.showModal(); else dialog.current?.close() }, [game, editor])
 
-  const start = i => setGame({ level: i, question: 0, selected: null, correct: 0, done: false })
+  const start = i => setGame(levels[i].type === 'slideshow' ? { level: i } : { level: i, question: 0, selected: null, correct: 0, done: false })
   const close = () => { setGame(null); setEditor(false) }
   function next() {
     const score = game.correct + Number(game.selected === levels[game.level].questions[game.question].answer)
@@ -114,28 +122,29 @@ export default function App() {
               const done = isComplete(i)
               return <article key={level.id} className={`level-card ${level.color} ${locked ? 'locked' : ''}`}>
                 <div className="level-illustration"><Icon name={level.icon} size={32} /></div>
-                <div className="level-details"><div className="level-labels"><span className="level-number">บทที่ {thaiNumber(i + 1)}</span><span className="difficulty">{level.difficulty}</span></div><h3>{tab === 'achievements' ? level.badge : topics[i] || level.title}</h3><p>{level.description}</p><div className="level-meta"><span><Icon name="book" size={15} />{thaiNumber(level.questions.length)} ข้อ</span><span><Icon name="star" size={15} />{thaiNumber(level.xp)} แต้ม</span></div></div>
-                {tab === 'achievements' ? <span className={`status-badge ${done ? 'earned' : ''}`}>{done ? 'ได้รับแล้ว' : 'ยังไม่ได้รับ'}</span> : <button disabled={locked} className={`level-action ${done ? 'complete' : ''}`} onClick={() => start(i)} aria-label={`${locked ? 'ยังไม่เปิด' : done ? 'ทบทวน' : 'เริ่ม'}บทที่ ${thaiNumber(i + 1)}`}><Icon name={locked ? 'lock' : done ? 'check' : 'book'} size={19} /><span>{locked ? 'รอเปิด' : done ? 'ทบทวน' : 'เริ่มเรียน'}</span></button>}
+                <div className="level-details"><div className="level-labels"><span className="level-number">บทที่ {thaiNumber(i + 1)}</span><span className="difficulty">{level.difficulty}</span></div><h3>{tab === 'achievements' ? level.badge : topics[i] || level.title}</h3><p>{level.description}</p><div className="level-meta"><span><Icon name="book" size={15} />{level.type === 'slideshow' ? `สไลด์ ${thaiNumber(level.slides.length)} หน้า` : `${thaiNumber(level.questions.length)} ข้อ`}</span><span><Icon name="star" size={15} />{thaiNumber(level.xp)} แต้ม</span></div></div>
+                {tab === 'achievements' ? <span className={`status-badge ${done ? 'earned' : ''}`}>{done ? 'ได้รับแล้ว' : 'ยังไม่ได้รับ'}</span> : <button disabled={locked} className={`level-action ${done ? 'complete' : ''}`} onClick={() => start(i)} aria-label={`${locked ? 'ยังไม่เปิด' : done ? 'ทบทวน' : 'เริ่ม'}บทที่ ${thaiNumber(i + 1)}`}><Icon name={locked ? 'lock' : done ? 'check' : 'book'} size={19} /><span>{locked ? 'รอเปิด' : done ? 'ทบทวน' : level.type === 'slideshow' ? 'ดูสไลด์' : 'เริ่มเรียน'}</span></button>}
                 <span className="level-bottom">{done ? 'เรียนสำเร็จแล้ว · กลับมาทบทวนได้เสมอ' : locked ? `เรียนบทที่ ${thaiNumber(i)} ให้สำเร็จเพื่อเปิดบทนี้` : 'พร้อมให้คุณเริ่มเรียนรู้'}</span>
               </article>
             })}</div>
           </section>
-          <aside className="journey-panel"><div className="journey-heading"><h2>บันทึกการเรียนรู้</h2><Icon name="flag" size={20} /></div><p>ทุกความตั้งใจ มีความหมาย</p><div className="progress-ring" role="img" aria-label={`เรียนสำเร็จร้อยละ ${thaiNumber(percent)}`} style={{ '--progress': `${percent}%` }}><div><span>สำเร็จร้อยละ</span><strong>{thaiNumber(percent)}</strong></div></div><h3>{completed === levels.length ? 'เรียนครบทุกบทแล้ว' : completed ? 'ก้าวต่อไปด้วยความตั้งใจ' : 'เริ่มก้าวแรกแห่งการเรียนรู้'}</h3><p>{completed === levels.length ? 'กลับมาทบทวน เพื่อให้ความรู้คงอยู่เสมอ' : 'ตอบให้ถูกทุกข้อ เพื่อเปิดบทเรียนถัดไป'}</p><div className="journey-steps">{levels.map((level, i) => <div key={level.id} className={`journey-step ${isComplete(i) ? 'done' : ''}`}><span>{isComplete(i) ? '✓' : thaiNumber(i + 1)}</span><div><strong>{level.title}</strong><p>{isComplete(i) ? 'เรียนสำเร็จแล้ว' : i === current ? 'ก้าวถัดไปของคุณ' : 'รอการเรียนรู้'}</p></div></div>)}</div><div className="journey-note"><Lotus /><span>รักษ์ภาษา รักษ์ความเป็นไทย</span></div></aside></div>
+          <aside className="journey-panel"><div className="journey-heading"><h2>บันทึกการเรียนรู้</h2><Icon name="flag" size={20} /></div><p>ทุกความตั้งใจ มีความหมาย</p><div className="progress-ring" role="img" aria-label={`เรียนสำเร็จร้อยละ ${thaiNumber(percent)}`} style={{ '--progress': `${percent}%` }}><div><span>สำเร็จร้อยละ</span><strong>{thaiNumber(percent)}</strong></div></div><h3>{completed === levels.length ? 'เรียนครบทุกบทแล้ว' : completed ? 'ก้าวต่อไปด้วยความตั้งใจ' : 'เริ่มก้าวแรกแห่งการเรียนรู้'}</h3><p>{completed === levels.length ? 'กลับมาทบทวน เพื่อให้ความรู้คงอยู่เสมอ' : levels[current].type === 'slideshow' ? 'เปิดดูสไลด์ให้ครบ แล้วกดเรียนจบบทนี้เพื่อเปิดบทถัดไป' : 'ตอบให้ถูกทุกข้อ เพื่อเปิดบทเรียนถัดไป'}</p><div className="journey-steps">{levels.map((level, i) => <div key={level.id} className={`journey-step ${isComplete(i) ? 'done' : ''}`}><span>{isComplete(i) ? '✓' : thaiNumber(i + 1)}</span><div><strong>{level.title}</strong><p>{isComplete(i) ? 'เรียนสำเร็จแล้ว' : i === current ? 'ก้าวถัดไปของคุณ' : 'รอการเรียนรู้'}</p></div></div>)}</div><div className="journey-note"><Lotus /><span>รักษ์ภาษา รักษ์ความเป็นไทย</span></div></aside></div>
         </>}
         <footer><span>เรียนไทย · สืบสานมรดกแห่งภาษา</span><span>เรียนรู้รากเหง้า เข้าใจวันนี้ <span aria-hidden="true">✦</span></span></footer>
       </main>
     </div>
 
-    <dialog ref={dialog} onCancel={close} className="quest-dialog" aria-label={editor ? 'แก้ไขชื่อบทเรียน' : 'แบบทดสอบความรู้'}><button className="close-button" onClick={close} aria-label="ปิดหน้าต่าง"><Icon name="close" /></button>
+    <dialog ref={dialog} onCancel={close} className={`quest-dialog ${game && levels[game.level].type === 'slideshow' ? 'slide-dialog' : ''}`} aria-label={editor ? 'แก้ไขชื่อบทเรียน' : game && levels[game.level].type === 'slideshow' ? 'สไลด์บทเรียน' : 'แบบทดสอบความรู้'}><button className="close-button" onClick={close} aria-label="ปิดหน้าต่าง"><Icon name="close" /></button>
       {editor && <form onSubmit={e => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
         setTopics(levels.map((_, i) => String(data.get(`topic-${i}`)).trim()))
         setEditor(false)
-        setNotice('บันทึกชื่อบทเรียนแล้ว คำถามในแต่ละบทยังคงเดิม')
-      }}><div className="eyebrow">สำรับบทเรียนของคุณ</div><h2>ตั้งชื่อบทเรียน</h2><p>ปรับชื่อบทเรียนได้ตามต้องการ โดยคำถามในแต่ละบทยังคงเดิม</p>{levels.map((level, i) => <label className="topic-field" key={level.id}>บทที่ {thaiNumber(i + 1)} · {level.title}<input name={`topic-${i}`} defaultValue={topics[i]} maxLength={80} placeholder={level.title} /></label>)}<button className="primary-button dialog-submit" type="submit"><Icon name="check" size={18} />บันทึกชื่อบทเรียน</button></form>}
+        setNotice('บันทึกชื่อบทเรียนแล้ว เนื้อหาในแต่ละบทยังคงเดิม')
+      }}><div className="eyebrow">สำรับบทเรียนของคุณ</div><h2>ตั้งชื่อบทเรียน</h2><p>ปรับชื่อบทเรียนได้ตามต้องการ โดยเนื้อหาในแต่ละบทยังคงเดิม</p>{levels.map((level, i) => <label className="topic-field" key={level.id}>บทที่ {thaiNumber(i + 1)} · {level.title}<input name={`topic-${i}`} defaultValue={topics[i]} maxLength={80} placeholder={level.title} /></label>)}<button className="primary-button dialog-submit" type="submit"><Icon name="check" size={18} />บันทึกชื่อบทเรียน</button></form>}
       {game && (() => {
         const level = levels[game.level]
+        if (level.type === 'slideshow') return <SlideLesson key={level.id} level={level} title={topics[game.level] || level.title} onComplete={() => setProgress(previous => previous.map((score, i) => i === game.level ? completionTarget(level) : score))} onContinue={() => start(game.level + 1)} onClose={close} />
         const question = level.questions[game.question]
         const totalQuestions = level.questions.length
         const passed = game.correct === totalQuestions

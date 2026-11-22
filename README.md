@@ -26,9 +26,13 @@ Run these from `my-app`:
 
 ## Learning content
 
-The dashboard includes three unlockable demo quiz levels, XP, badges, and progress saved in the browser. There is no account system or server database.
+The dashboard includes a 16-page Thai-history slideshow followed by two unlockable quizzes, points, badges, and progress saved in the browser. There is no account system or server database.
 
-Use **Edit topics** to change topic names in your browser. Edit `my-app/src/learning.js` to replace the demo questions. Each level currently expects three questions; `answer` is the zero-based index of the correct option.
+Use **แก้ไขชื่อบทเรียน** to change lesson names in your browser. Lesson one displays the supplied PDF pages in order, with previous/next and zoom controls. Viewing every slide and choosing **เรียนจบบทนี้** completes the lesson and unlocks the next quiz. Existing earned completion and other quiz scores are migrated automatically.
+
+Edit `my-app/src/learning.js` to change lessons or quiz questions; `answer` is the zero-based index of the correct option. Slide metadata is in `my-app/src/thaiHistorySlides.js`, with the rendered images in `my-app/public/lessons/thai-history`. The original user PDF is unchanged.
+
+Run `node --test src/learningProgress.test.js src/matchingCards.test.js` from `my-app` to check the lesson migration, slide assets, and matching game.
 
 Main interface: `my-app/src/App.jsx`. Styles: `my-app/src/index.css`.
 

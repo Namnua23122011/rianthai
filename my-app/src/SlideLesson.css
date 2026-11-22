@@ -1,0 +1,32 @@
+.quest-dialog.slide-dialog { width: min(1160px, calc(100vw - 32px)); padding: 24px; max-height: 94dvh; }
+.slide-heading { padding-right: 40px; }
+.quest-dialog .slide-heading h2 { font-family: 'Leelawadee UI', Tahoma, sans-serif; font-size: clamp(18px, 2vw, 25px); line-height: 1.7; margin: 6px 0 14px; overflow-wrap: anywhere; }
+.slide-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 13px; }
+.quest-dialog .slide-toolbar p { font-size: 14px; line-height: 1.8; }
+.slide-toolbar button { flex-shrink: 0; }
+.slide-stage { position: relative; background: #e6d7b7; border: 1px solid #b28d50; border-radius: 4px; overflow: auto; aspect-ratio: 16 / 9; }
+.slide-stage img { display: block; width: 100%; height: auto; }
+.slide-stage.is-zoomed { aspect-ratio: auto; height: 56dvh; }
+.slide-stage.is-zoomed img { width: 1920px; max-width: none; }
+.slide-loading, .slide-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #f3e7d0; padding: 20px; text-align: center; }
+.slide-error { flex-direction: column; gap: 14px; }
+.quest-dialog .slide-hint { font-size: 14px; margin-top: 8px; }
+.slide-progress { height: 4px; background: #e5d8bf; border-radius: 2px; margin-top: 17px; overflow: hidden; }
+.slide-progress span { display: block; height: 100%; background: #9a743a; }
+.slide-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 15px; }
+.slide-controls > span { font-size: 14px; color: #795e39; text-align: center; }
+.slide-controls button:disabled, .slide-toolbar button:disabled { opacity: .45; }
+.slide-finished { margin-top: 18px; text-align: center; }
+.slide-finished .dialog-actions { margin-top: 12px; }
+.journey-step > div { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .quest-dialog.slide-dialog { width: calc(100vw - 16px); padding: 22px 14px 18px; }
+  .slide-heading { padding-right: 28px; }
+  .quest-dialog .slide-heading h2 { font-size: 18px; }
+  .slide-toolbar { gap: 10px; align-items: flex-start; }
+  .slide-toolbar .secondary-button { padding: 9px; }
+  .slide-controls { flex-wrap: wrap; }
+  .slide-controls > span { order: -1; width: 100%; }
+  .slide-controls button { flex: 1; }
+  .slide-stage.is-zoomed { height: 48dvh; }
+}
