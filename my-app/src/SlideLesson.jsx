@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { thaiNumber } from './format'
 import './SlideLesson.css'
 
-export default function SlideLesson({ level, title, onComplete, onContinue, onClose }) {
+export default function SlideLesson({ level, chapter, title, onComplete, onContinue, onClose }) {
   const [page, setPage] = useState(0)
   const [loadedPage, setLoadedPage] = useState(null)
   const [visited, setVisited] = useState(() => new Set())
@@ -23,7 +23,7 @@ export default function SlideLesson({ level, title, onComplete, onContinue, onCl
   }
 
   return <section className="slide-lesson" aria-label="สไลด์บทเรียน">
-    <header className="slide-heading"><div className="eyebrow">บทที่ ๑ · สไลด์ประกอบการเรียนรู้</div><h2>{title}</h2></header>
+    <header className="slide-heading"><div className="eyebrow">บทที่ {thaiNumber(chapter)} · สไลด์ประกอบการเรียนรู้</div><h2>{title}</h2></header>
     <div className="slide-toolbar"><p aria-live="polite">หน้า {thaiNumber(page + 1)} จาก {thaiNumber(total)} · {slide.title}</p><button className="secondary-button" disabled={!ready} aria-pressed={zoomed} onClick={() => setZoomed(value => !value)}>{zoomed ? 'พอดีหน้าจอ' : 'ขยายสไลด์'}</button></div>
     <div className={`slide-stage ${zoomed ? 'is-zoomed' : ''}`} tabIndex={zoomed ? 0 : undefined} role="region" aria-label="ภาพสไลด์ เลื่อนดูภาพได้เมื่อขยาย" aria-busy={!ready && !failed}>
       {!ready && !failed && <p className="slide-loading" role="status">กำลังเปิดสไลด์…</p>}

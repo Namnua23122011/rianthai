@@ -7,7 +7,6 @@ const titles = [
   'ยุคดิจิทัล',
   'ทบทวนความรู้เรื่องลายสือไทย',
   'เฉลยเรื่องลายสือไทย',
-  'ทบทวนความรู้เรื่องจินดามณี',
   'คำถามเรื่องผู้แต่งจินดามณี',
   'เฉลยเรื่องผู้แต่งจินดามณี',
   'ผู้ประดิษฐ์และผู้มีส่วนร่วมในการปรับปรุงตัวอักษรไทย',
@@ -19,5 +18,5 @@ const titles = [
 
 export const thaiHistorySlides = titles.map((title, index) => ({
   title,
-  image: `${import.meta.env?.BASE_URL ?? '/'}lessons/thai-history/slide-${String(index + 1).padStart(2, '0')}.jpg`,
+  image: `${import.meta.env?.BASE_URL ?? '/'}lessons/thai-history/slide-${String(index + 1).padStart(2, '0')}.jpg?v=2`,
 }))

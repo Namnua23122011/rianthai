@@ -5,9 +5,9 @@
 .quest-dialog .slide-toolbar p { font-size: 14px; line-height: 1.8; }
 .slide-toolbar button { flex-shrink: 0; }
 .slide-stage { position: relative; background: #e6d7b7; border: 1px solid #b28d50; border-radius: 4px; overflow: auto; aspect-ratio: 16 / 9; }
-.slide-stage img { display: block; width: 100%; height: auto; }
+.slide-stage img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .slide-stage.is-zoomed { aspect-ratio: auto; height: 56dvh; }
-.slide-stage.is-zoomed img { width: 1920px; max-width: none; }
+.slide-stage.is-zoomed img { width: 1920px; max-width: none; height: auto; }
 .slide-loading, .slide-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #f3e7d0; padding: 20px; text-align: center; }
 .slide-error { flex-direction: column; gap: 14px; }
 .quest-dialog .slide-hint { font-size: 14px; margin-top: 8px; }

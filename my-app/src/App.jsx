@@ -40,13 +40,16 @@ function Lotus({ className = '' }) {
 }
 
 export default function App() {
-  const [progress, setProgress] = useState(() => saved(progressStorageKey,
-    migrateLegacyProgress(saved('studyquest-progress', [], Array.isArray), levels),
-    value => isValidProgress(value, levels)))
+  const [progress, setProgress] = useState(() => {
+    const previous = saved('rianthai-progress-v2', null, Array.isArray)
+    return saved(progressStorageKey,
+      migrateLegacyProgress(previous ?? saved('studyquest-progress', [], Array.isArray), levels, previous ? 2 : 1),
+      value => isValidProgress(value, levels))
+  })
   const [topics, setTopics] = useState(() => {
     const validTopics = value => Array.isArray(value) && value.length === levels.length && value.every(topic => typeof topic === 'string')
-    const legacyTopics = saved('studyquest-topics', levels.map(() => ''), validTopics)
-    return saved(topicsStorageKey, legacyTopics.map((topic, i) => i === 0 ? '' : topic), validTopics)
+    const legacyTopics = saved('rianthai-topics-v2', saved('studyquest-topics', levels.map(() => ''), validTopics), validTopics)
+    return saved(topicsStorageKey, legacyTopics.map((topic, i) => i === 1 ? '' : topic), validTopics)
   })
   const [tab, setTab] = useState('dashboard')
   const [game, setGame] = useState(null)
@@ -144,7 +147,7 @@ export default function App() {
       }}><div className="eyebrow">สำรับบทเรียนของคุณ</div><h2>ตั้งชื่อบทเรียน</h2><p>ปรับชื่อบทเรียนได้ตามต้องการ โดยเนื้อหาในแต่ละบทยังคงเดิม</p>{levels.map((level, i) => <label className="topic-field" key={level.id}>บทที่ {thaiNumber(i + 1)} · {level.title}<input name={`topic-${i}`} defaultValue={topics[i]} maxLength={80} placeholder={level.title} /></label>)}<button className="primary-button dialog-submit" type="submit"><Icon name="check" size={18} />บันทึกชื่อบทเรียน</button></form>}
       {game && (() => {
         const level = levels[game.level]
-        if (level.type === 'slideshow') return <SlideLesson key={level.id} level={level} title={topics[game.level] || level.title} onComplete={() => setProgress(previous => previous.map((score, i) => i === game.level ? completionTarget(level) : score))} onContinue={() => start(game.level + 1)} onClose={close} />
+        if (level.type === 'slideshow') return <SlideLesson key={level.id} level={level} chapter={game.level + 1} title={topics[game.level] || level.title} onComplete={() => setProgress(previous => previous.map((score, i) => i === game.level ? completionTarget(level) : score))} onContinue={() => start(game.level + 1)} onClose={close} />
         const question = level.questions[game.question]
         const totalQuestions = level.questions.length
         const passed = game.correct === totalQuestions
