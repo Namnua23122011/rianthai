@@ -1,5 +1,5 @@
-export const progressStorageKey = 'rianthai-progress-v3'
-export const topicsStorageKey = 'rianthai-topics-v3'
+export const progressStorageKey = 'rianthai-progress-v4'
+export const topicsStorageKey = 'rianthai-topics-v4'
 
 export const completionTarget = level => level.type === 'slideshow' ? 1 : level.questions.length
 
@@ -14,8 +14,9 @@ export const isValidProgress = (value, levels) => Array.isArray(value)
 export function migrateLegacyProgress(value, levels, version = 1) {
   return levels.map((level, index) => {
     const score = Array.isArray(value) ? value[index] : undefined
-    if (index === 0 && level.type === 'slideshow') return score === (version === 2 ? 1 : 8) ? 1 : 0
-    if (index === 1 && level.type === 'slideshow') return score === 3 ? 1 : 0
+    if (index === 0 && level.type === 'slideshow') return score === (version >= 2 ? 1 : 8) ? 1 : 0
+    if (index === 1 && level.type === 'slideshow') return score === (version >= 3 ? 1 : 3) ? 1 : 0
+    if (index === 2 && level.type === 'slideshow') return score === 3 ? 1 : 0
     return isValidScore(score, completionTarget(level)) ? score : 0
   })
 }

@@ -26,7 +26,7 @@ Run these from `my-app`:
 
 ## Learning content
 
-The dashboard includes two 15-page slideshows followed by one unlockable quiz, points, badges, and progress saved in the browser. There is no account system or server database.
+The dashboard includes three unlockable slideshows (15, 15, and 14 pages), points, badges, and progress saved in the browser. There is no account system or server database.
 
 Use **แก้ไขชื่อบทเรียน** to change lesson names in your browser. Lesson one displays the supplied PDF pages in order, with previous/next and zoom controls. Viewing every slide and choosing **เรียนจบบทนี้** completes the lesson and unlocks the next quiz. Existing earned completion and other quiz scores are migrated automatically.
 

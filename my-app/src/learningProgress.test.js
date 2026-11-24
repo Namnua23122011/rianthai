@@ -17,14 +17,14 @@ test('the first lesson uses all fifteen supplied slides in order', () => {
 })
 
 test('completed legacy lessons and quiz scores survive the slide replacement', () => {
-  assert.deepEqual(migrateLegacyProgress([8, 3, 2], levels), [1, 1, 2])
+  assert.deepEqual(migrateLegacyProgress([8, 3, 2], levels), [1, 1, 0])
   assert.deepEqual(migrateLegacyProgress([7, 2, 0], levels), [0, 0, 0])
   assert.deepEqual(migrateLegacyProgress([undefined, 2, 99], levels), [0, 0, 0])
   assert.deepEqual(migrateLegacyProgress(null, levels), [0, 0, 0])
 })
 
 test('slide completion is independent of quiz answer counts', () => {
-  assert.deepEqual(levels.map(completionTarget), [1, 1, 3])
+  assert.deepEqual(levels.map(completionTarget), [1, 1, 1])
   assert.equal(isValidProgress([1, 1, 0], levels), true)
   for (const invalid of [[8, 0, 0], [16, 0, 0], [1, 4, 0], [1, -1, 0], [1, 1.5, 0], [1], null]) {
     assert.equal(isValidProgress(invalid, levels), false)
@@ -35,6 +35,14 @@ test('slide completion is independent of quiz answer counts', () => {
   assert.equal(levels[1].slides.length, 15)
   assert.equal(levels[1].questions, undefined)
   for (const slide of levels[1].slides) assert.ok(existsSync(new URL(`../public${slide.image}`, import.meta.url)))
-  assert.deepEqual(migrateLegacyProgress([1, 3, 2], levels, 2), [1, 1, 2])
-  assert.deepEqual(migrateLegacyProgress([1, 1, 2], levels, 2), [1, 0, 2])
+  assert.deepEqual(migrateLegacyProgress([1, 3, 2], levels, 2), [1, 1, 0])
+  assert.deepEqual(migrateLegacyProgress([1, 1, 0], levels, 2), [1, 0, 0])
+})
+
+test('third slideshow preserves completion and contains fourteen real pages', () => {
+  assert.equal(levels[2].slides.length, 14)
+  assert.equal(levels[2].questions, undefined)
+  for (const slide of levels[2].slides) assert.ok(existsSync(new URL(`../public${slide.image}`, import.meta.url)))
+  assert.deepEqual(migrateLegacyProgress([1, 1, 3], levels, 3), [1, 1, 1])
+  assert.deepEqual(migrateLegacyProgress([1, 1, 2], levels, 3), [1, 1, 0])
 })
