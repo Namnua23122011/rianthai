@@ -25,6 +25,8 @@ Progress and custom lesson titles are now stored per account in Supabase. All th
 
 ## Supabase setup
 
+Connected local project: `thycwxsposoblcrdugcr` (configured on 2026-11-24). The learning-record migration ran successfully and anonymous database access was verified as denied. `.env.local` contains the public connection values and is ignored by Git. Email/password authentication and email confirmation remain enabled. The local callback URL save was submitted, but its final state and end-to-end account flows still need verification.
+
 Create a Supabase project and run `supabase/migrations/202611240001_learning_accounts.sql` once in the SQL Editor. This creates `learning_records`, validates its data, and enables row-level security so only the signed-in owner can read or write their row. Anonymous access is denied.
 
 Copy `.env.example` to `.env.local` and fill `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` from the project's Connect dialog. Never use a service-role or secret key in the browser. Restart Vite after changing environment values; hosting needs these variables at build time.
