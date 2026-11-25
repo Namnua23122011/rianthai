@@ -15,7 +15,7 @@ Run `npm run build` to create production files in `dist`.
 
 Slide completion and custom lesson titles are stored in this browser's local storage. Data does not sync between devices. Exercises show feedback and scores for the current attempt.
 
-The previous Supabase database and migration remain preserved, but the app no longer connects to Supabase. Existing cloud records are not copied into local progress. No environment variables are required.
+Quiz scores are saved to Supabase through anonymous sessions without a login screen. See [SCORES-SETUP.md](./SCORES-SETUP.md) for setup, viewing scores, and database checks. The previous account records remain preserved and are not used for local lesson progress.
 
 ## Content
 
