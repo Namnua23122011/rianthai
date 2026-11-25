@@ -4,11 +4,13 @@ import MatchingGame from './MatchingGame'
 import { cardBack } from './matchingCards'
 import { thaiNumber } from './format'
 import SlideLesson from './SlideLesson'
+import QuestionPage from './QuestionPage'
 import { completionTarget, isValidProgress, migrateLegacyProgress, progressStorageKey, topicsStorageKey } from './learningProgress'
 
 const navigation = [
   { id: 'dashboard', label: 'หน้าหลัก', icon: 'home' },
   { id: 'learning', label: 'บทเรียนของฉัน', shortLabel: 'บทเรียน', icon: 'book' },
+  { id: 'questions', label: 'แบบฝึกหัด', shortLabel: 'แบบฝึกหัด', icon: 'edit' },
   { id: 'matching', label: 'จับคู่ลายสือไทย', shortLabel: 'เกมจับคู่', icon: 'grid' },
   { id: 'achievements', label: 'เกียรติยศ', icon: 'trophy' },
 ]
@@ -106,7 +108,7 @@ export default function App({ initialRecord, onSave, account }) {
       <header className="topbar"><div className="breadcrumb"><span>เรือนการเรียนรู้</span><span aria-hidden="true">/</span><strong>{activePage.label}</strong></div><span className="xp-pill"><Icon name="star" size={17} /> {thaiNumber(xp)} แต้ม</span></header>
       <main id="main-content" tabIndex={-1}>
         {notice && <p role="status" className="notice">{notice}</p>}
-        {tab === 'matching' ? <MatchingGame /> : <>
+        {tab === 'questions' ? <QuestionPage /> : tab === 'matching' ? <MatchingGame /> : <>
           <div className="page-heading"><div><p className="eyebrow">มรดกอักษร สู่การเรียนรู้วันนี้</p><h1>{tab === 'achievements' ? 'เกียรติยศแห่งการเรียนรู้' : tab === 'learning' ? 'บทเรียนของฉัน' : 'ยินดีต้อนรับสู่เรือนเรียนไทย'}</h1></div><button className="secondary-button" onClick={() => setEditor(true)}><Icon name="edit" size={16} />แก้ไขชื่อบทเรียน</button></div>
 
           {tab === 'dashboard' && <>
