@@ -41,9 +41,8 @@ function Lotus({ className = '' }) {
   return <svg className={className} width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true"><path d="M24 5c-9 9-12 17 0 28 12-11 9-19 0-28Z M24 33C9 34 4 24 5 15c11 1 16 6 19 18Z M24 33c15 1 20-9 19-18-11 1-16 6-19 18Z M24 35C12 40 4 33 2 25c9 0 17 4 22 10Z M24 35c12 5 20-2 22-10-9 0-17 4-22 10Z M12 42h24 M18 38h12" /></svg>
 }
 
-export default function App({ initialRecord, onSave, account }) {
+export default function App() {
   const [progress, setProgress] = useState(() => {
-    if (initialRecord) return initialRecord.progress
     const versionThree = saved('rianthai-progress-v3', null, Array.isArray)
     const previous = versionThree ?? saved('rianthai-progress-v2', null, Array.isArray)
     return saved(progressStorageKey,
@@ -51,7 +50,6 @@ export default function App({ initialRecord, onSave, account }) {
       value => isValidProgress(value, levels))
   })
   const [topics, setTopics] = useState(() => {
-    if (initialRecord) return initialRecord.topics
     const validTopics = value => Array.isArray(value) && value.length === levels.length && value.every(topic => typeof topic === 'string')
     const legacyTopics = saved('rianthai-topics-v3', saved('rianthai-topics-v2', saved('studyquest-topics', levels.map(() => ''), validTopics), validTopics), validTopics)
     return saved(topicsStorageKey, legacyTopics.map((topic, i) => i === 2 ? '' : topic), validTopics)
@@ -69,12 +67,11 @@ export default function App({ initialRecord, onSave, account }) {
   const activePage = navigation.find(item => item.id === tab)
 
   useEffect(() => {
-    if (onSave) { onSave({ progress, topics }); return }
     try {
       localStorage.setItem(progressStorageKey, JSON.stringify(progress))
       localStorage.setItem(topicsStorageKey, JSON.stringify(topics))
     } catch { setNotice('ไม่สามารถบันทึกข้อมูลในเบราว์เซอร์ได้ การเปลี่ยนแปลงจะคงอยู่เฉพาะการใช้งานครั้งนี้') }
-  }, [progress, topics, onSave])
+  }, [progress, topics])
   useEffect(() => { if (game || editor) dialog.current?.showModal(); else dialog.current?.close() }, [game, editor])
 
   const start = i => setGame(levels[i].type === 'slideshow' ? { level: i } : { level: i, question: 0, selected: null, correct: 0, done: false })
@@ -101,7 +98,7 @@ export default function App({ initialRecord, onSave, account }) {
         </button>
       )}</nav>
       <div className="sidebar-tip"><Lotus /><h3>รากภาษา รากของเรา</h3><p>เรียนรู้วันละนิด<br />สืบสานภาษาไทยให้ยั่งยืน</p><span className="tip-ornament" aria-hidden="true">◇</span></div>
-      <div className="profile"><div className="avatar">ศ</div><div className="account-profile"><strong>{account?.name || 'ผู้ใฝ่เรียนรู้'}</strong>{account && <><small role="status">{account.status}</small>{account.failed && <button onClick={account.retry}>ลองบันทึกอีกครั้ง</button>}<button onClick={account.onSignOut} disabled={account.saving || account.failed}>ออกจากระบบ</button></>}</div></div>
+      <div className="profile"><div className="avatar">ศ</div><strong>ผู้ใฝ่เรียนรู้</strong></div>
     </aside>
 
     <div className="main-shell">
