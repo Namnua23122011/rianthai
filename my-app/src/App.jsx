@@ -98,7 +98,7 @@ export default function App() {
         </button>
       )}</nav>
       <div className="sidebar-tip"><Lotus /><h3>รากภาษา รากของเรา</h3><p>เรียนรู้วันละนิด<br />สืบสานภาษาไทยให้ยั่งยืน</p><span className="tip-ornament" aria-hidden="true">◇</span></div>
-      <div className="profile"><div className="avatar">ศ</div><strong>ผู้ใฝ่เรียนรู้</strong></div>
+      <div className="profile"><div className="avatar">ศ</div><div><strong>ผู้ใฝ่เรียนรู้</strong><small style={{ display: 'block' }}>บันทึกความก้าวหน้าในเบราว์เซอร์นี้</small></div></div>
     </aside>
 
     <div className="main-shell">
